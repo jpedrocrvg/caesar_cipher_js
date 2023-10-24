@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caesar Cipher</title>
+</head>
+<body>
+    <h1>Caesar Cipher</h1>
+
+    <label for="direction">Type 'encode' to encrypt, type 'decode' to decrypt:</label>
+    <input type="text" id="direction" placeholder="encode/decode"><br>
+
+    <label for="text">Type your message:</label>
+    <input type="text" id="text" placeholder="Your message"><br>
+
+    <label for="shift">Type the shift number:</label>
+    <input type="number" id="shift" placeholder="Shift number"><br>
+
+    <button onclick="caesar()">Encrypt/Decrypt</button>
+
+    <p id="result"></p>
+
+    <script>
+        const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+
+        function caesar() {
+            const directionInput = document.getElementById('direction');
+            const textInput = document.getElementById('text');
+            const shiftInput = document.getElementById('shift');
+            const resultElement = document.getElementById('result');
+
+            const direction = directionInput.value;
+            const text = textInput.value.toLowerCase();
+            const shift = parseInt(shiftInput.value);
+
+            function encrypt(plainText, shiftAmount) {
+                let cipherText = '';
+                for (let i = 0; i < plainText.length; i++) {
+                    const letter = plainText[i];
+                    const position = alphabet.indexOf(letter);
+                    const newPosition = (position + shiftAmount) % 26;
+                    cipherText += alphabet[newPosition];
+                }
+                resultElement.innerText = `The encoded text is ${cipherText}`;
+            }
+
+            function decrypt(plainText, shiftAmount) {
+                let cipherText = '';
+                for (let i = 0; i < plainText.length; i++) {
+                    const letter = plainText[i];
+                    const position = alphabet.indexOf(letter);
+                    let newPosition = (position - shiftAmount) % 26;
+                    if (newPosition < 0) {
+                        newPosition += 26;
+                    }
+                    cipherText += alphabet[newPosition];
+                }
+                resultElement.innerText = `The decoded text is ${cipherText}`;
+            }
+
+            if (direction === 'encode') {
+                encrypt(text, shift);
+            } else if (direction === 'decode') {
+                decrypt(text, shift);
+            }
+        }
+    </script>
+</body>
+</html>
